@@ -43,7 +43,7 @@ public class DemoMessageStore {
             Is_Dir = true;
         }
 
-        if(count.get()>50000){
+        if(count.get()>80000){
             save();
             msgs.clear();
             count.set(0);

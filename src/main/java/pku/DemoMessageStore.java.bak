@@ -43,7 +43,7 @@ public class DemoMessageStore {
             Is_Dir = true;
         }
 
-        if(count.get()>40000){
+        if(count.get()>50000){
             save();
             msgs.clear();
             count.set(0);
@@ -99,11 +99,11 @@ public class DemoMessageStore {
         bodyContent = new byte[intBodyLength];
         bufferedInputStream.read(bodyContent);//读取的是压缩数据，需要解压
 		//对bodyContent进行解压
-		byte[] decompressBody = decompressByte(bodyContent);
+		//byte[] decompressBody = decompressByte(bodyContent);
 
         DefaultKeyValue keyValue = makeKeyValue(header);
-        //DefaultMessage message = new DefaultMessage(bodyContent);
-		DefaultMessage message = new DefaultMessage(decompressBody);
+        DefaultMessage message = new DefaultMessage(bodyContent);
+		//DefaultMessage message = new DefaultMessage(decompressBody);
 
         message.setHeaders(keyValue);
         return message;
@@ -188,8 +188,8 @@ public class DemoMessageStore {
 
                 byte[] header = header(message.headers());
                 byte[] headerLength = intToByteArray(header.length);
-                //byte[] body = message.getBody();
-				byte[] body = compressByte(message.getBody());//将body进行压缩
+                byte[] body = message.getBody();
+				//byte[] body = compressByte(message.getBody());//将body进行压缩
                 byte[] bodyLength = intToByteArray(body.length);
 
                 bos.write(headerLength);
